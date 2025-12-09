@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS cinemas (
+    id          BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(150)      NOT NULL,
+    address     VARCHAR(255)      NOT NULL,
+    city        VARCHAR(100),
+    description TEXT,
+    created_at  TIMESTAMP         NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP         NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

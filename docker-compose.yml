@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  # MySQL Service
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: cinema_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/src/db/migrations:/docker-entrypoint-initdb.d
+
+  # phpMyAdmin for MySQL management
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  # Backend Service (API)
+  backend:
+    build: ./backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"  # Cổng backend
+
+volumes:
+  mysql_data:
